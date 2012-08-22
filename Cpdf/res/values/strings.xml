@@ -5,5 +5,6 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_photo_make">PhotoMake</string>
+    <string name="title_activity_make_photo">MakePhotoActivity</string>
 
 </resources>

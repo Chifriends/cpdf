@@ -20,13 +20,16 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int captureFront=0x7f080000;
-        public static final int menu_settings=0x7f080001;
+        public static final int captureFront=0x7f080002;
+        public static final int linearLayout3=0x7f080000;
+        public static final int menu_settings=0x7f080003;
+        public static final int myaddress=0x7f080001;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_make_photo=0x7f030001;
-        public static final int activity_photo_make=0x7f030002;
+        public static final int activity_getaddress=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_make_photo=0x7f030002;
+        public static final int activity_photo_make=0x7f030003;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -35,6 +38,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
+        public static final int default_filename=0x7f050006;
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
         public static final int title_activity_main=0x7f050003;

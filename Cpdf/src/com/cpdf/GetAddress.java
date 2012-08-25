@@ -30,20 +30,27 @@ public class GetAddress extends Activity implements LocationListener {
 	private String provider;
 	private double LATITUDE;
 	private double LONGITUDE;
-	
-	//Date & Time value
-	Date now = new Date();
-	//Let's think more about range time, for example 1~5pm = afternoon, 5~8 = evening, something like this..
-	String dateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(now);
-	
+	private String FILENAME;
+
 	// textView is the TextView view that should display it
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Set filename
+		FILENAME = "" + R.string.last_filename;
+
+		// Date & Time value
+		Date now = new Date();
+		// Let's think more about range time, for example 1~5pm = afternoon, 5~8
+		// = evening, something like this..
+		String dateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(now);
+
+		// When we launch, we should get rid of these two below lines..
 		setContentView(R.layout.activity_getaddress);
 		myAddress = (TextView) findViewById(R.id.myaddress);
-		
+
 		// Get the location manager
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		// Define the criteria how to select the location provider -> use
@@ -51,25 +58,36 @@ public class GetAddress extends Activity implements LocationListener {
 		Criteria criteria = new Criteria();
 		provider = locationManager.getBestProvider(criteria, false);
 		Location location = locationManager.getLastKnownLocation(provider);
-		
+
 		onLocationChanged(location);
 
-		Geocoder geocoder = new Geocoder (this, Locale.ENGLISH);
-		
+		Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+
 		try {
-			List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-			
-			if(addresses.size() > 0 && addresses != null) {
+			List<Address> addresses = geocoder.getFromLocation(LATITUDE,
+					LONGITUDE, 1);
+
+			if (addresses.size() > 0 && addresses != null) {
 				Address returnedAddress = addresses.get(0);
-				myAddress.setText(returnedAddress.getFeatureName()+"_"+returnedAddress.getThoroughfare()+"_"+ dateTime);
+				// When we launch, we should get rid of these two below lines..
+				FILENAME = returnedAddress.getFeatureName() + "_"
+						+ returnedAddress.getThoroughfare() + "_" + dateTime;
+				// myAddress.setText(returnedAddress.getFeatureName()+"_"+returnedAddress.getThoroughfare()+"_"+
+				// dateTime);
+				myAddress.setText(FILENAME);
+
+			} else {
+				// When we launch, we should get rid of these two below lines..
+				FILENAME = R.string.default_filename + "_" + dateTime;
+				// myAddress.setText(R.string.default_filename+"_"+ dateTime);
+				myAddress.setText(FILENAME);
 			}
-			else { 	
-				myAddress.setText(R.string.default_filename+"_"+ dateTime);
-			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
-			myAddress.setText(R.string.default_filename+"_"+ dateTime);
+			FILENAME = R.string.default_filename + "_" + dateTime;
+			// myAddress.setText(R.string.default_filename+"_"+ dateTime);
+			myAddress.setText(FILENAME);
 		}
 	}
 
@@ -87,29 +105,33 @@ public class GetAddress extends Activity implements LocationListener {
 		locationManager.removeUpdates(this);
 	}
 
-	//@Override
+	// @Override
 	public void onLocationChanged(Location location) {
 		LATITUDE = (double) (location.getLatitude());
 		LONGITUDE = (double) (location.getLongitude());
 	}
 
-	//@Override
+	// @Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 
 	}
 
-	//@Override
+	// @Override
 	public void onProviderEnabled(String provider) {
 		Toast.makeText(this, "Enabled new provider " + provider,
 				Toast.LENGTH_SHORT).show();
 
 	}
 
-	//@Override
+	// @Override
 	public void onProviderDisabled(String provider) {
 		Toast.makeText(this, "Disabled provider " + provider,
 				Toast.LENGTH_SHORT).show();
 	}
-	
+
+	public String getFileName() {
+		return FILENAME;
+	}
+
 }

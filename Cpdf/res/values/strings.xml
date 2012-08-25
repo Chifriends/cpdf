@@ -7,4 +7,5 @@
     <string name="title_activity_photo_make">PhotoMake</string>
     <string name="title_activity_make_photo">MakePhotoActivity</string>
 	<string name="default_filename">cpdf</string>
+	<string name="last_filename"></string>
 </resources>

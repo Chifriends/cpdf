@@ -25,6 +25,11 @@ public class PhotoHandler implements PictureCallback {
 
     File pictureFileDir = getDir();
 
+    
+    //Testing to see if the directory is gettin created
+    Toast.makeText(context, getDir().toString(), Toast.LENGTH_LONG);
+    
+    
     if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
 
      // Log.d(Constants.DEBUG_TAG, "Can't create directory to save image.");

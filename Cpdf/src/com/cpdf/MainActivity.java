@@ -1,7 +1,10 @@
 package com.cpdf;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -36,42 +39,67 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        
-        Toast msg = Toast.makeText(MainActivity.this,
-                "File Path: " + android.os.Environment.getExternalStorageDirectory(), Toast.LENGTH_LONG);
-        msg.show();
-
-        // step 1: creation of a document-object
-        Document document = new Document();
-        try {
-                // step 2:
-                // we create a writer that listens to the document
-                // and directs a PDF-stream to a file
-                PdfWriter.getInstance(document, new FileOutputStream(android.os.Environment.getExternalStorageDirectory() + java.io.File.separator + "droidtext" + java.io.File.separator + "HelloWorld.pdf"));
-
-                // step 3: we open the document
-                document.open();
-                // step 4: we add a paragraph to the document
-                document.add(new Paragraph("Hello World"));
-                
-
-
-        } catch (DocumentException de) {
-                System.err.println(de.getMessage());
-        } catch (IOException ioe) {
-                System.err.println(ioe.getMessage());
-        }
-
-        // step 5: we close the document
-        document.close();
-        
+        setContentView(R.layout.activity_main);       
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+    
+    public void testFileLoc(View view){
+    	/* 
+    	Toast msg = Toast.makeText(MainActivity.this,
+                 "File Path: " + getExternalFilesDir(null), Toast.LENGTH_LONG);
+         msg.show();
+         */
+    	this.createExternalStoragePrivateFile();
+
+    }
+    
+    void createExternalStoragePrivateFile() {
+        // Create a path where we will place our private file on external
+        // storage.
+        File file = new File(getExternalFilesDir(null), "DemoFile.jpg");
+
+        try {
+            // Very simple code to copy a picture from the application's
+            // resource into the external file.  Note that this code does
+            // no error checking, and assumes the picture is small (does not
+            // try to copy it in chunks).  Note that if external storage is
+            // not currently mounted this will silently fail.
+        	//File storagePath = new File(+ "/foldername");
+        	//storagePath.mkdirs();
+
+            InputStream is = getResources().openRawResource(R.drawable.ic_launcher);
+            OutputStream os = new FileOutputStream(file);
+            byte[] data = new byte[is.available()];
+            is.read(data);
+            os.write(data);
+            is.close();
+            os.close();
+            String foo="false";
+            if(this.hasExternalStoragePrivateFile())
+            	foo = "true";
+        	Toast msg = Toast.makeText(MainActivity.this,
+                    "Success: " + this.getExternalFilesDir(null) + foo , Toast.LENGTH_LONG);
+            msg.show();
+        } catch (IOException e) {
+            // Unable to create file, likely because external storage is
+            // not currently mounted.
+            Log.w("ExternalStorage", "Error writing " + file, e);
+        }
+    }
+    
+    boolean hasExternalStoragePrivateFile() {
+        // Get path for the file on external storage.  If external
+        // storage is not currently mounted this will fail.
+        File file = new File(getExternalFilesDir(null), "DemoFile.jpg");
+        if (file != null) {
+            return file.exists();
+        }
+        return false;
     }
     
     
